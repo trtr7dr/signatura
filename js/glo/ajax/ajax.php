@@ -63,7 +63,7 @@
 	    	}
 	    	$f++;
     	}
-    	
+    	//print_r($vectorUser);
     	
 		$sql = 'SELECT * FROM `vector`';
 		$res = $db->query($sql);
@@ -78,14 +78,16 @@
     	while($obj = $res->fetch(PDO::FETCH_ASSOC)){
 	    	$tmp = explode(';',$obj['coordinate']);
 			$ganreResult['ganre'][$u] = $obj['ganre'];
-			$ganreResult['res'][$u] = (skolarMulti($vectorUser, $tmp) / (longVector($vectorUser) * longVector($tmp)));
+			$ganreResult['res']['cos'][$u] = cosinus($vectorUser, $tmp);
 	    	$u++;
     	}
+    	
+    	//print_r($ganreResult);
     	//косинусовая мера
     	
     	
     	
-    	$data['table'] = print_ganre($ganreResult);
+    	$data['table'] = print_ganre($ganreResult,'cos');
     	
 		print ($data['table']);
     	

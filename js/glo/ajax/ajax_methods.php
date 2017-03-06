@@ -7,11 +7,6 @@
     
        
 	 if($_POST['flag'] == 'sig'){ //юзеор залил картинку
-		//$img = $_POST['img'];
-		//$img = str_replace('data:image/jpeg;base64,', '', $img);
-		//$img = str_replace(' ', '+', $img);
-		//$result = file_put_contents('img/'.date('m_d_y_H_i_s').'.png', base64_decode($img));
-		
 		
 		$color = getPalette($_POST['palette'], 8);	
 		
@@ -54,36 +49,23 @@
     	$ganreResult = array();
     	$u = 0;
     	
+    	$hpattern = 0.2; //Паттерн для Хемминга
     	
     	while($obj = $res->fetch(PDO::FETCH_ASSOC)){
 	    	$tmp = explode(';',$obj['coordinate']);
 			$ganreResult['ganre'][$u] = $obj['ganre'];
-			$ganreResult['res']['cos'][$u] = cosinus($vectorUser, $tmp);
-			$ganreResult['res']['dise'][$u] = dise($vectorUser, $tmp);
-			//Overlap 
+			$ganreResult['res']['cos'][$u] = cosinus($vectorUser, $tmp); //косинусовая мера
+			$ganreResult['res']['dise'][$u] = dise($vectorUser, $tmp); //коэффициент Дайса 
+			$ganreResult['res']['jak'][$u] = jakkard($vectorUser, $tmp); //коэффициент Джаккарда 
+			$ganreResult['res']['over'][$u] = overlap($vectorUser, $tmp);//Overlap 
+			$ganreResult['res']['hemm'][$u] = hemming($vectorUser, $tmp, $hpattern);//Overlap 
 	    	$u++;
     	}
     	
-    	$ganreResult['alg'] = array('cos','dise');
+    	$ganreResult['alg'] = array('cos','dise','jak','over','hemm');
     	print json_encode($ganreResult);
     	
-    	//print_r($ganreResult['res']['dise']);
-    	
-    	//print_r($ganreResult['res']['cos']);
-    	
-    	
-    	//$data['cos'] = print_ganre($ganreResult,'cos');
-    	
-    	//$data['dise'] = print_ganre($ganreResult,'dise');
-    	
-    	
-    	
-    	//print($data['cos']);
-    	//echo('<br>');
-    	//print($data['dise']);
-    	
-    	    	
-    	//print json_encode(($tst),JSON_UNESCAPED_SLASHES);
+
 		
 
 		

@@ -87,23 +87,20 @@
 				response:'text',
 				success:function (data) {
 					res.style.backgroundColor = "#eee";
-					
-					
-					
+
 					var source = JSON.parse(data);
-					
-					
+		
 					var r = '<table>';
 					
-						r += '<tr><td></td>';
+						r += '<tr><td style="border: 1px black solid;"></td>';
 							for(var j = 0; j < source['alg'].length; j++){
-								r += '<td>'+source['alg'][j]+'</td>';
+								r += '<td style="border: 1px black solid;">'+source['alg'][j]+'</td>';
 							}
 						r += '</tr>';
 					
 					
 						for(var i = 0; i < source['ganre'].length; i++){
-							r += '<tr><td>'+source['ganre'][i]+'</td>';
+							r += '<tr><td style="border: 1px black solid;">'+source['ganre'][i]+'</td>';
 							
 								for(var j = 0; j < source['alg'].length; j++){
 									r += '<td>'+source['res'][source['alg'][j]][i]+'</td>';
@@ -113,14 +110,7 @@
 					
 					
 					r += '</table>';
-					console.log(r);
 					res.innerHTML = r;
-					
-					//console.log(source['table']);
-					
-					//var table = '<table>' + source['table'].substr(20,source['table'].length);
-					
-					//res.innerHTML = source;
 
 				}
 	  });
