@@ -11,14 +11,16 @@
 	
 		$height = $_POST['height'];
 		$width = $_POST['width'];
+		
+		$faces = count($face);
 	
-		if (count($face) == 1) {
+		if ($faces == 1) {
 		    echo('Вероятно, на изображении портрет одного человека');
 		}
-		if (count($face) > 1) {
+		if ($faces > 1) {
 		    echo('Вероятно, на изображении расположена группа людей');
 		}
-		if (count($face) == 0) {
+		if ($faces == 0) {
 		    echo('Не удалось распознать лица людей');
 		}
     }
@@ -28,10 +30,10 @@
 		//$img = str_replace('data:image/jpeg;base64,', '', $img);
 		//$img = str_replace(' ', '+', $img);
 		//$result = file_put_contents('img/'.date('m_d_y_H_i_s').'.png', base64_decode($img));
+		
 		$color = getPalette($_POST['palette'], 8);
 	
 		$db = connect();
-	
 		$lang = $db->query('SET CHARACTER SET utf8');
 	
 	
