@@ -86,32 +86,65 @@
 				async: false,
 				response:'text',
 				success:function (data) {
-					res.style.backgroundColor = "#eee";
-
+				res.style.backgroundColor = "#eee";
+				
+				//res.innerHTML += data;
+					console.log(data);
 					var source = JSON.parse(data);
-		
+					console.log(source);
+					
+					//var ganre = unique(source);
+					
+					var l = source.length;
+					var i;
+					
 					var r = '<table>';
 					
-						r += '<tr><td style="border: 1px black solid;"></td>';
-							for(var j = 0; j < source['alg'].length; j++){
-								r += '<td style="border: 1px black solid;">'+source['alg'][j]+'</td>';
-							}
-						r += '</tr>';
+					r += '<tr><td></td>';
+					for(i = 0; i < l; i+=4){
+						r += '<td>' + source[i]['ganre'] + '</td>';
+					}
+					r += '</tr>';	
 					
+					r += '<tr><td>cos</td>';
+					for(i = 0; i < l; i+=4){
+						r += '<td>' + source[i]['cos'] + '</td>';
+					}
+					r += '</tr>';
 					
-						for(var i = 0; i < source['ganre'].length; i++){
-							r += '<tr><td style="border: 1px black solid;">'+source['ganre'][i]+'</td>';
+					r += '<tr><td>dise</td>';
+					for(i = 1; i < l; i+=4){
+						r += '<td>' + source[i]['dise'] + '</td>';
+					}
+					r += '</tr>';
+					
+					r += '<tr><td>jakk</td>';
+					for(i = 2; i < l; i+=4){
+						r += '<td>' + source[i]['jakk'] + '</td>';
+					}
+					r += '</tr>';
+					
+					r += '<tr><td>over</td>';
+					for(i = 3; i < l; i+=4){
+						r += '<td>' + source[i]['over'] + '</td>';
+					}
+					r += '</tr>';
+					
+						/*
+						source.forEach(function(item, i, arr) {
+							r += '<tr>';
 							
-								for(var j = 0; j < source['alg'].length; j++){
-									r += '<td>'+source['res'][source['alg'][j]][i]+'</td>';
-								}
+							r += '<td>' + item['ganre'] + '</td>';
+							
 							r += '</tr>';
-						}
-					
+						});
+						*/
+						
 					
 					r += '</table>';
 					res.innerHTML = r;
-
+					
+					
 				}
 	  });
 	    return 0;
