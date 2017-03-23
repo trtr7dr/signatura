@@ -5,7 +5,7 @@
   
   
   
-  function handleFile(evt) {
+ function handleFile(evt) {
 	
 	//var name = document.getElementById('name').value;
 	var res = document.getElementById('result');
@@ -65,6 +65,7 @@
 		
 
     }
+
   
   
   
@@ -89,60 +90,12 @@
 				res.style.backgroundColor = "#eee";
 				
 				//res.innerHTML += data;
-					console.log(data);
+				
+				
+				
 					var source = JSON.parse(data);
-					console.log(source);
-					
-					//var ganre = unique(source);
-					
-					var l = source.length;
-					var i;
-					
-					var r = '<table>';
-					
-					r += '<tr><td></td>';
-					for(i = 0; i < l; i+=4){
-						r += '<td>' + source[i]['ganre'] + '</td>';
-					}
-					r += '</tr>';	
-					
-					r += '<tr><td>cos</td>';
-					for(i = 0; i < l; i+=4){
-						r += '<td>' + source[i]['cos'] + '</td>';
-					}
-					r += '</tr>';
-					
-					r += '<tr><td>dise</td>';
-					for(i = 1; i < l; i+=4){
-						r += '<td>' + source[i]['dise'] + '</td>';
-					}
-					r += '</tr>';
-					
-					r += '<tr><td>jakk</td>';
-					for(i = 2; i < l; i+=4){
-						r += '<td>' + source[i]['jakk'] + '</td>';
-					}
-					r += '</tr>';
-					
-					r += '<tr><td>over</td>';
-					for(i = 3; i < l; i+=4){
-						r += '<td>' + source[i]['over'] + '</td>';
-					}
-					r += '</tr>';
-					
-						/*
-						source.forEach(function(item, i, arr) {
-							r += '<tr>';
-							
-							r += '<td>' + item['ganre'] + '</td>';
-							
-							r += '</tr>';
-						});
-						*/
-						
-					
-					r += '</table>';
-					res.innerHTML = r;
+					console.log(source);					
+					res.innerHTML = get_ganre(source);
 					
 					
 				}
@@ -151,7 +104,55 @@
 	  
   }
 
- 
+
+function get_table_color(c, step){
+	var color = ["#ff0000", "#ffae00", "#ff0000", "#00ffff", "#00ae00", "#0000ff"];
+	//echo(step.' '.Math.round(c*10).'<br>');
+		if(step == 1){
+			if(Math.round(c*10) > 2){
+				return get_table_color(c, 2);
+			}else{
+				return color[0];
+			}
+				
+		}
+		else{
+			if(Math.round(c*10) > step + 2){
+				return get_table_color(c, step + 2);
+			}
+			else{
+				return color[Math.round(step/2)];
+			}
+		}
+	}	
+		
+	
+	function get_ganre(v){
+		
+		var color = '';
+		var res = '<table>';
+		
+		for(var i = 0; i < v.length; i++){
+			res += '<tr>';
+			res += '<td style="width:5%;">' + v[i]['ganre'] + '</td>';
+			res += '<td style="width:5%;">' + v[i]['num'].toPrecision(3) + '</td>';
+			
+			color = get_table_color(v[i]['num'],1);
+			cnum = Math.round(v[i]['num']*10);
+			console.log(cnum);
+			for(var s = 0; s < cnum; s++){
+				res += '<td style="background:' + color + '; color: '+ color +' ">.</td>';
+			}
+			for(var s = 0; s < 10 - cnum; s++){
+				res += '<td style="color: #eee">.</td>';
+			}
+			
+			res += '</tr>';
+		}
+		
+		return res + '</table>';
+		
+	}
 
 
 

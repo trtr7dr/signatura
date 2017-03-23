@@ -39,9 +39,14 @@
 	    	$user->dise($ganre, $obj['ganre']);
 	    	$user->jakkard($ganre, $obj['ganre']);
 	    	$user->overlap($ganre, $obj['ganre']);
+	    	$user->hemming($ganre, $obj['ganre'], 2.5);
 	    }
 	    
-	    var_dump($user);
+	    $user->middle_result();
+	    
+	    //print_r($user->$statistics);
+	    
+	    print json_encode($user->statistics);
 		
 		unset($db);
 		unset($sql);

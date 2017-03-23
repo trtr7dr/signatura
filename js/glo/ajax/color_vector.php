@@ -1,8 +1,12 @@
 <?php
 class Color_vector{
+	
 	    public $coord = array();
 	    public $similarity = array();
-	    
+	    public $statistics = array();
+	    public $allMethods = 5; //реализовано методов
+		
+		public $index;    
 	    
 	    
 	    public function bild_vector($main, $color){
@@ -15,6 +19,7 @@ class Color_vector{
 		    	}
 		    	$f++;
 	    	}
+	    	$this->index = 0;
 		}
 		
 		public function set_vector($v){
@@ -22,21 +27,66 @@ class Color_vector{
 		}
 		
 		public function cosinus($b, $ganre){
-			$this->similarity[$ganre]['cos'] = $this->skolarMulti($this->coord, $b->coord) / ($this->longVector($this->coord) * $this->longVector($b->coord));
+			$this->similarity[$this->index][$this->index] = $this->skolarMulti($this->coord, $b->coord) / ($this->longVector($this->coord) * $this->longVector($b->coord));
+			$this->similarity[$this->index]['ganre'] = $ganre;
+			$this->index++;
 		}
 		
 		public function dise($b, $ganre){
-			$this->similarity[$ganre]['dise'] = ( 2 * $this->summ_multi($this->coord, $b->coord) ) / ($this->summ_sqrt($this->coord) + $this->summ_sqrt($b->coord));
+			$this->similarity[$this->index][$this->index] = ( 2 * $this->summ_multi($this->coord, $b->coord) ) / ($this->summ_sqrt($this->coord) + $this->summ_sqrt($b->coord));
+			$this->similarity[$this->index]['ganre'] = $ganre;
+			$this->index++;
 		}
 		
 		public function jakkard($b, $ganre){
-			$this->similarity[$ganre]['jakk'] = $this->summ_multi($this->coord, $b->coord) / ($this->summ_sqrt($this->coord) + $this->summ_sqrt($b->coord) - $this->summ_multi($this->coord, $b->coord) );
+			$this->similarity[$this->index][$this->index] = $this->summ_multi($this->coord, $b->coord) / ($this->summ_sqrt($this->coord) + $this->summ_sqrt($b->coord) - $this->summ_multi($this->coord, $b->coord) );
+			$this->similarity[$this->index]['ganre'] = $ganre;
+			$this->index++;
 		}
 		
 		
 		public function overlap($b, $ganre){
-			$this->similarity[$ganre]['over'] = ( $this->summ_multi($this->coord, $b->coord) ) / min($this->summ_sqrt($this->coord), $this->summ_sqrt($b->coord));
+			$this->similarity[$this->index][$this->index] = ( $this->summ_multi($this->coord, $b->coord) ) / min($this->summ_sqrt($this->coord), $this->summ_sqrt($b->coord));
+			$this->similarity[$this->index]['ganre'] = $ganre;
+			$this->index++;
 		}	
+		
+		public function hemming($b, $ganre, $pattern){
+			$res = 0;
+			//print_r($this->coord);
+			//echo '<br>';
+			//print_r($b->coord);
+			for($i = 0; $i < count($b->coord); $i++){
+				if( abs($this->coord[$i] - $b->coord[$i]) > $pattern){
+					$res++;
+				}
+			}
+			$this->similarity[$this->index][$this->index] = $res / 16;
+			$this->index++;
+			
+		}
+		
+		public function middle_result(){
+			$k = 0;
+			for($i = 0; $i < $this->index; $i += $this->allMethods){
+				$s = 0;
+				for($j = 0; $j < $this->allMethods; $j++){
+					$s += $this->similarity[$i][$i];
+				}
+				$s /= $this->allMethods;
+				$this->statistics[$k]['ganre'] = $this->similarity[$i]['ganre'];
+				$this->statistics[$k]['num'] = $s;
+				$k++;
+			}
+		}
+		
+		private function average($arr, $n){
+			$s = 0;
+			for($i; $i < count($arr); $i++){
+				$s += $arr[$i];
+			}
+			return $s / $n;
+		}
 		
 		//private
 		
