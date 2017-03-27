@@ -5,11 +5,11 @@
     //require_once ( 'function.php' );
     require_once ( 'palette.php' );
     require_once ( 'color_vector.php' );
+    require_once ( 'artist.php' );
     
     require_once($_SERVER['DOCUMENT_ROOT'].'/wp-load.php');
     
     
-        
     
    
      
@@ -59,6 +59,28 @@
 	 }
     
        
+     if($_POST['flag'] == 'artist'){
+	    $color = new Palette();
+		$color->set_color_user($_POST['palette'], 8);
+	    
+	    $db = connect();
+	    
+	    $artist = new Artist($db);
+	    $artist->getList(1, $color);
+		
+		
+
+		$data['artist'] = $artist->artString();
+		
+		$data['mla'] = $artist->mla();
+		
+		print(json_encode($data));
+
+		unset($db);
+		
+		exit();
+    }
+
     
         
     

@@ -7,9 +7,11 @@
   
  function handleFile(evt) {
 	
-	//var name = document.getElementById('name').value;
+	var gall = document.getElementById('artistList');
 	var res = document.getElementById('result');
-	res.innerHTML = ('<img src="https://artrue.ru/wp-content/themes/typecore-master/img/load.gif">');
+	
+	res.innerHTML = 'Идет загрузка. Пожалуйста, подождите.';
+	gall.innerHTML = ('<img src="https://artrue.ru/wp-content/themes/typecore-master/img/load.gif">');
 	//console.log(res);
 	
 	
@@ -53,6 +55,7 @@
 				//console.log(myImage.src);
 			    paletteArray = colorThief.getPalette(myImage, 8);
 			  	c = ajaxPal(dominantColor,paletteArray,res,myImage.src);
+			  	artistList(paletteArray);
 			  });
 
 			
@@ -63,10 +66,35 @@
 	      reader.readAsDataURL(f);
 	    }
 		
+		
 
     }
 
-  
+  function artistList(paletteArray){
+	  
+	  var res = document.getElementById('artistList');
+	  //res.innerHTML = ('<img src="https://artrue.ru/wp-content/themes/typecore-master/img/load.gif">');
+	  
+	  jQuery.ajax({
+			    
+				type:'post',
+				url:'/wp-content/themes/typecore-master/js/glo/ajax/ajax_methods.php',
+				global: false,
+				data:{'flag': 'artist', 'palette': paletteArray},
+				async: true,
+				response:'text',
+				success:function (data) {
+					res.style.backgroundColor = "#ddd";
+					var source = JSON.parse(data);
+					console.log(source);
+					res.innerHTML = '<div class="artList">' + source['artist'] + '</div>';
+					
+					res.innerHTML += source['mla']
+				}
+	  });
+	    return 0;
+	  
+  }
   
   
   function ajaxPal(dominantColor,paletteArray,res,img){
@@ -90,13 +118,9 @@
 				res.style.backgroundColor = "#eee";
 				
 				//res.innerHTML += data;
-				
-				
-				
 					var source = JSON.parse(data);
-					console.log(source);					
+					//console.log(source);					
 					res.innerHTML = get_ganre(source);
-					
 					
 				}
 	  });
@@ -139,7 +163,7 @@ function get_table_color(c, step){
 			
 			color = get_table_color(v[i]['num'],1);
 			cnum = Math.round(v[i]['num']*10);
-			console.log(cnum);
+			//console.log(cnum);
 			for(var s = 0; s < cnum; s++){
 				res += '<td style="background:' + color + '; color: '+ color +' ">.</td>';
 			}

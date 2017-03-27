@@ -45,6 +45,7 @@
 
 			<div id="resultFace"></div>
 			<div id="result" class="resSig"> <span style="text-align: center">Добавьте изображение PNG, JPG или JPEG, чтобы получить его цветовой анализ.</span></div>
+			<div id="artistList" class="resSig"></div>
 
 			<? the_content(); ?>
 
