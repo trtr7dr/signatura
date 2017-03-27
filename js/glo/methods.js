@@ -56,6 +56,7 @@
 			    paletteArray = colorThief.getPalette(myImage, 8);
 			  	c = ajaxPal(dominantColor,paletteArray,res,myImage.src);
 			  	artistList(paletteArray);
+			  	faceScan();
 			  });
 
 			
@@ -86,7 +87,7 @@
 				success:function (data) {
 					res.style.backgroundColor = "#ddd";
 					var source = JSON.parse(data);
-					console.log(source);
+					//console.log(source);
 					res.innerHTML = '<div class="artList">' + source['artist'] + '</div>';
 					
 					res.innerHTML += source['mla']
@@ -177,7 +178,28 @@ function get_table_color(c, step){
 		return res + '</table>';
 		
 	}
-
+	
+	function faceScan() {
+		var res = document.getElementById('resultFace');
+		res.style.backgroundColor = "black";
+		var f;
+	    jQuery(function ($) {
+		$('#myImage0').faceDetection({
+			    complete: function (faces) {
+					var str = '';
+					if(faces.length == 1){
+						str = "Вероятно, на изображении расположен один человек";
+					}
+					if(faces.length > 1){
+						str = "Вероятно, на изображении расположена группа людей";
+					}
+					
+					res.innerHTML = str;	
+		    	}
+			});
+		});
+		
+	}
 
 
 document.getElementById('files').addEventListener('change', handleFile, false);
