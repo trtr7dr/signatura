@@ -9,16 +9,11 @@
 <section class="content signatura">
 
     <?php
-	//get_template_part('inc/page-title'); 
-
 	wp_enqueue_script('jquery3.1.1', get_template_directory_uri() . '/js/glo/jquery-3.1.1.min.js');
 	wp_enqueue_script('color-thief', get_template_directory_uri() . '/js/glo/color-thief.js');
 	wp_enqueue_script('scriptjava', get_template_directory_uri() . '/js/glo/scriptjava.js');
-	//wp_enqueue_script('scriptjava', get_template_directory_uri() . '/js/glo/color-thief.min.js');
-	//wp_enqueue_script('sigScript', get_template_directory_uri() . '/js/glo/mustache.js');
-	//wp_enqueue_script('sigScript', get_template_directory_uri() . '/js/glo/demo.js');
 	wp_enqueue_script('sigScript', get_template_directory_uri() . '/js/glo/methods.js');
-	//wp_enqueue_script('facedetection', get_template_directory_uri() . '/js/glo/dist/jquery.facedetection.js');
+	wp_enqueue_script('facedetection', get_template_directory_uri() . '/js/glo/dist/jquery.facedetection.js');
 	wp_enqueue_script('facedetection', get_template_directory_uri() . '/js/glo/jquery.lazyload/jquery.lazyload.js');
 	wp_enqueue_script('facedetection', get_template_directory_uri() . '/js/glo/jquery.lazyload/jquery.lazyload.use.js');
     ?>
@@ -51,16 +46,15 @@
 
 			<div class="clear spaceComment"></div>
 
-
-
-
 		    </div><!--/.entry-->
 
 		</article>
 
-		<?php if (ot_get_option('page-comments') == 'on') {
+		<?php
+		if (ot_get_option('page-comments') == 'on') {
 		    comments_template('comments.php', true);
-		} ?>
+		}
+		?>
 
     <?php endwhile; ?>
 
